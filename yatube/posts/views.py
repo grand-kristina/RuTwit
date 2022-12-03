@@ -27,9 +27,6 @@ def group_posts(request, slug):
 @login_required
 def post_create(request):
     """Страница создания поста"""
-
-    # Можно лучше:
-    # Во вьюхе new_post инициализируем форму через request.POST or None
     form = PostForm(request.POST or None)
     if not request.method == "POST":
         return render(request, "posts/new_post.html", {"form": form})
@@ -41,34 +38,6 @@ def post_create(request):
     post.author = request.user
     post.save()
     return redirect("posts:profile", request.user)
-
-
-# Студенты чаще всего делают вот так:
-# def new_post(request):
-#     if request.method == 'POST':
-#         form = PostForm(request.POST)
-#         if form.is_valid():
-#             post = form.save(commit=False)
-#             post.author = user
-#             post.save()
-#             return redirect('index')
-#         return render(request, 'new_post.html', {'form': form})
-#     form = PostForm()
-#     return render(request, 'new_post.html', {'form': form})
-
-# Или вот так
-# def new_post(request):
-#     form = PostForm()
-#     if request.method == 'POST':
-#         form = PostForm(request.POST)
-#         if form.is_valid():
-#             post = form.save(commit=False)
-#             post.author = request.user
-#             post.save()
-#             return redirect('index')
-#     return render(request, 'new_post.html', {'form': form})
-#
-# Эти варианты тоже приемлемы
 
 
 def profile(request, username):
