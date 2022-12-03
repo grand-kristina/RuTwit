@@ -4,12 +4,13 @@
   {{ post.text|truncatechars:30 }}
 {% endblock %}
 {% block content %}
-  <div class="row">
-    <aside class="col-12 col-md-3">
+  <div class="card">
+    <aside class="card-body">
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          Дата публикации: {{ post.pub_date|date:"d E Y" }}
-        </li>
+         
+      <small class="text-muted">Дата публикации: {{ post.pub_date|date:"d E Y" }}</small>
+  
+        
         {% if post.group %}
           <li class="list-group-item">
           Группа: {{ post.group.title }}<br>

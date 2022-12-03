@@ -6,10 +6,15 @@
 {% block content %}
   <h1>Все посты пользователя {{ author.get_full_name }} </h1>
   <h3>Всего постов: {{ author.posts.count }} </h3>
+<div class="card border-info mb-3">
+<div class = "card-body text-dark"
   {% for post in page_obj %}
     {% include 'includes/single_post.html' with show_group_link=True %}
     {% if not forloop.last %}
+     
       <hr>{% endif %}
+</div>
   {% endfor %}
   {% include 'includes/paginator.html' %}
 {% endblock %}
+</div>

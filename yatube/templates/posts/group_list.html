@@ -1,12 +1,21 @@
 {% extends 'base.html' %}
 {% block title %}{{ group.title }}{% endblock %}
 {% block content %}
-  <h1>{{ group.title }}</h1>
-  <p>{{ group.description|linebreaksbr }}</p>
-  {% for post in page_obj %}
-    {% include "includes/single_post.html" with show_profile_link=True %}
+<h1 class="card-title">{{ group.title }}</h1>
+
+    
+        <p>{{ group.description|linebreaksbr }}</p>
+<div class="card">
+    <div class="card border-info mb-3">
+        {% for post in page_obj %}
+        {% include "includes/single_post.html" with show_profile_link=True %}
+    </div>
     {% if not forloop.last %}
-      <hr>{% endif %}
-  {% endfor %}
-  {% include 'includes/paginator.html' %}
+</div>
+<div class="card">
+    {% endif %}
+
+     {% endfor %}
+{% include 'includes/paginator.html' %}
 {% endblock %}
+    </div>
