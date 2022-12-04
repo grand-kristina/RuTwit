@@ -22,24 +22,47 @@
                 <li class="nav-item">
                     <a class="nav-link link-light {% if view_name  == 'about:tech' %}active-nav{% endif %}" href="{% url 'about:tech' %}">Технологии</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link link-light {% if view_name  == 'posts:index' %}active-nav{% endif %}" href="{% url 'posts:index' %}">Новости</a>
+                </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link link-light {% if view_name  == 'posts:post_create' %}active-nav{% endif %}" href="{% url 'posts:post_create' %}">Создать пост <img src="{% static 'image/letter.png' %}" width="24" height="24" class="" alt=""></a>
-                    
+                    <a class="nav-link link-light {% if view_name  == 'posts:post_create' %}active-nav{% endif %}" href="{% url 'posts:post_create' %}"><img src="{% static 'image/letter.png' %}" width="25" height="25" class="" alt="">  Создать пост </a>
+
                 </li>
+               
+
+
                 <li class="nav-item">
-                    <a class="nav-link link-light
-          {% if view_name  == 'users:password_change' %}active-nav{% endif %}" href="{% url 'users:password_change' %}">Изменить пароль</a>
+                    <div class="btn-group">
+                        <button type="button link-light" class="btn btn-outline-light  dropdown-toggle " data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{% static 'image/user.png' %}" width="25" height="25" class="" alt="">
+                            {{ user.username }}
+                            
+                        </button>
+                        
+                        <ul class="dropdown-menu nav-item">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'posts:profile' request.user.username %}">Моя страница</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item
+                                   {% if view_name  == 'users:password_change' %}
+                                        active-nav
+                                   {% endif %}" 
+                                   href="{% url 'users:password_change' %}">Изменить пароль</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'users:logout' %}">Выйти</a>
+                            </li>
+                        </ul>
+                    </div>
+
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link link-light" href="{% url 'users:logout' %}">Выйти</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link link-light">{{ user.username }}</a>
-                </li>
-                <li class="nav-item">
-                    <img src="{% static 'image/userr.svg' %}" width="40" height="40" class="" alt="">
-                </li>
+
+
+
+                
 
                 {% else %}
                 <li class="nav-item">

@@ -1,14 +1,24 @@
-<article>
-    <div class="card-footer">
-        <small class="text-muted">Дата публикации: {{ post.pub_date|date:"d E Y" }}</small>
-    </div>
+<div class = "card border-secondary mb-3"> 
+    <div class = "card-body text-dark">
+
     {% if show_profile_link %}
-        <div class="card-header bg-transparent "> 
-            Автор: <a href="{% url 'posts:profile' post.author.username %}">{{ post.author.get_full_name }}</a>
-        </div>
+        
+        <h6 class="card-title "> 
+            <a class = "card-title btn btn-light" href="{% url 'posts:profile' post.author.username %}">
+                {% if post.author.get_full_name %}
+                    {{ post.author.get_full_name }}
+                {% else %}
+                    Аноним
+                {% endif %}
+                
+            </a>
+            
+        </h6>
+        
     {% endif %}
 
-    <p class="card-text">{{ post.text|linebreaksbr }}</p>
+    <p class="list-unstyled">{{ post.text|linebreaksbr }}</p>
+    <small class="text-muted">Дата публикации: {{ post.pub_date|date:"d E Y" }}</small>
     <a 
        type="button" 
        class="btn badge bg-light text-dark position-relative" 
@@ -23,12 +33,13 @@
            class="btn badge bg-light text-dark position-relative" 
            href="{% url 'posts:group_list' post.group.slug %}"
         >
-            Все записи группы {{ post.group.title }}
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            #{{ post.group.title }}
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
                 {{ post.group.posts.count }}
             </span>
         </a>
 
     {% endif %} 
-</article>
+    </div>
+</div>
 

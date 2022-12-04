@@ -1,17 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}Последние обновления на сайте{% endblock %}
 {% block content %}
-    <h1 class = "card-title">Последние обновления на сайте</h1>
-    <div class = "card border-info mb-3"> 
+    <h1 >Последние обновления на сайте</h1>
     {% for post in page_obj %}
-        <div class = "card-body text-dark">
-            {% include "includes/single_post.html" with show_group_link=True show_profile_link=True %}
-        </div>
-        {% if not forloop.last %}
-            <hr>
-        {% endif %}
+        
+        {% include "includes/single_post.html" with show_group_link=True show_profile_link=True %}
+        
 
     {% endfor %}
-      
 {% include 'includes/paginator.html' %}
 {% endblock %}
