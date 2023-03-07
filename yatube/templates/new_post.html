@@ -1,6 +1,3 @@
-<!-- Этот шаблон может быть или тут, или в posts/templates/posts, тут по желанию -->
-<!-- Обязательно используем базовый шаблон -->
-<!-- Надо исправить: Используем не просто form.as_p, а берем красивый шаблон из signup.html -->
 {% extends "base.html" %}
 {% block title %}{% if is_edit %}Редактировать{% else %}Добавить{% endif %} пост{% endblock %}
 {% block content %}
@@ -8,10 +5,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8 p-5">
             <div class="card">
-                {# "Надо исправить": В этом файле внимательно проверяем, чтобы везде были if'ы. Хедер, form action, submit  #}
                 <div class="card-header">{% if is_edit %}Редактировать{% else %}Новый{% endif %} пост</div>
                 <div class="card-body">
-
                     {% if form.errors %}
                         {% for error in form.errors %}
                             <div class="alert alert-danger" role="alert">
@@ -19,7 +14,6 @@
                             </div>
                         {% endfor %}
                     {% endif %}
-                    {# Причесал тут отступы. #}
                     <form method="post" action="{% if is_edit %}{% url 'post_edit' username=post.author.username post_id=post.id %}{% else %}{% url 'new_post' %}{% endif %}" enctype="multipart/form-data">
                         {% csrf_token %}
                         {% for field in form %}
@@ -45,9 +39,9 @@
                             </button>
                         </div>
                     </form>
-                </div> <!-- card body -->
-            </div> <!-- card -->
-        </div> <!-- col -->
-    </div> <!-- row -->
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
