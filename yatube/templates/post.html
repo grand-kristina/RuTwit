@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Пользователь {{ author.username }}{% endblock %}
+{% block content %}
+{% load user_filters %}
+    <main role="main" class="container">
+        {# Я метаюсь между "Можно лучше" и "Надо исправить" для инклудов здесь и в profile.html .#}
+        {# Предлагаю слабым студентам рекомендовать как "Можно лучше", а сильным - как обязательную правку. #}
+        <div class="row">
+            <div class="col-md-3 mb-3 mt-1">
+                {% include 'includes/author_card.html' with author=author posts_count=posts_count %}
+            </div>
+            <div class="col-md-9">
+                {% include 'includes/post_item.html' with post=post %}
+            </div>
+        </div>
+        {% include 'includes/comments.html' with post=post items=post.comments.all form=form %}
+    </main>
+{% endblock %}

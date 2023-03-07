@@ -14,7 +14,6 @@ from ..models import Group, Post
 
 User = get_user_model()
 
-
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
 
@@ -41,14 +40,53 @@ class PostFormTests(TestCase):
 
         cache.clear()
 
+    def test_auth_user_can_publish_post(self):
+        small_gif = (
+            b'\x47\x49\x46\x38\x39\x61\x02\x00'
+            b'\x01\x00\x80\x00\x00\x00\x00\x00'
+            b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
+            b'\x00\x00\x00\x2C\x00\x00\x00\x00'
+            b'\x02\x00\x01\x00\x00\x02\x02\x0C'
+            b'\x0A\x00\x3B'
+        )
+        image_name = 'small.gif'
+        uploaded = SimpleUploadedFile(
+            name=image_name,
+            content=small_gif,
+            content_type='image/gif'
+        )
+        form_data = {
+            'text': 'Тестовый текст',
+            'image': uploaded,
+            'group': PostFormTests.group.id
+        }
+
+        response = self.authorized_client.post(
+            reverse('new_post'),
+            data=form_data,
+            follow=True
+        )
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertRedirects(response, reverse('index'))
+
+        self.assertEqual(Post.objects.count(), 1)
+        self.assertTrue(
+            Post.objects.filter(
+                text=form_data['text'],
+                image=f'posts/{image_name}',
+                group=PostFormTests.group
+            ).exists()
+        )
+
     def test_unauth_user_cant_publish_post(self):
         count = Post.objects.count()
         response = self.client.post(
-            reverse('posts:post_create'),
+            reverse('new_post'),
             data={'text': 'Test post', 'group': PostFormTests.group.id},
         )
         login_url = reverse('login')
-        new_post_url = reverse('posts:post_create')
+        new_post_url = reverse('new_post')
         target_url = f'{login_url}?next={new_post_url}'
         self.assertRedirects(response, target_url)
         self.assertEqual(Post.objects.count(), count)
@@ -67,7 +105,7 @@ class PostFormTests(TestCase):
         )
 
         self.authorized_client.post(
-            reverse('posts:post_edit', args=(post.id,)),
+            reverse('post_edit', args=(self.user.username, post.id)),
             data={'text': new_post_text, 'group': new_group.id},
             follow=True,
         )
@@ -79,7 +117,7 @@ class PostFormTests(TestCase):
         self.assertEqual(post.group, new_group)
 
         old_group_response = self.authorized_client.get(
-            reverse('posts:group_list', args=(self.group.slug,))
+            reverse('group', args=(self.group.slug,))
         )
 
-        self.assertEqual(len(old_group_response.context['page_obj']), 0)
+        self.assertEqual(old_group_response.context['paginator'].count, 0)

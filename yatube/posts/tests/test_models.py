@@ -25,8 +25,8 @@ class PostModelTest(TestCase):
     def test_verbose_name(self):
         post = PostModelTest.post
         field_verboses = {
-            'text': 'Текст поста',
-            'group': 'Группа, в которой находится пост',
+            'text': 'Текст',
+            'group': 'Группа',
         }
 
         for value, expected in field_verboses.items():
