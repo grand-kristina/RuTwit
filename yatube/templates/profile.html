@@ -1,36 +1,45 @@
 {% extends "base.html" %}
-{% block title %}Пользователь {{ author.username }}{% endblock %}
+{% load static %}
+
+<img src="{% static 'image/SayHi.svg' %}" width="100" height="55" class="d-inline-block align-top" alt="">
+
 {% block content %}
 {% load user_filters %}
-    <main role="main" class="container">
-        <div class="row">
-            <div class="col-md-3 mb-3 mt-1">
-                {% include 'includes/author_card.html' with author=author posts_count=paginator.count %}
-                {% if author.username != request.user.username %} {# Надо исправить: Этот блок вообще не надо показывать в собственном профиле юзера#}
-                    <li class="list-group-item">
-                        {% if following %}
-                            <a class="btn btn-lg btn-light"
-                               href="{% url 'profile_unfollow' author.username %}" role="button">
-                                Отписаться
-                            </a>
-                        {% else %}
-                            <a class="btn btn-lg btn-primary"
-                               href="{% url 'profile_follow' author.username %}" role="button">
-                                Подписаться
-                            </a>
-                        {% endif %}
-                    </li>
-                {% endif %}
-            </div>
 
-            <div class="col-md-9">
-                {% for post in page %}
-                    {% include "includes/post_item.html" with post=post %}
-                {% endfor %}
-                {% if page.has_other_pages %}
-                    {% include "includes/paginator.html" with items=page paginator=paginator %}
+
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-3 mb-3 mt-1">
+            
+            {% include 'includes/author_card.html' with author=author posts_count=paginator.count %}
+   
+            {% if author.username != request.user.username %} 
+            
+            {# Надо исправить: Этот блок вообще не надо показывать в собственном профиле юзера#}
+            
+            <li class="list-group-item">
+                {% if following %}
+                <a class="btn btn-lg btn-light" href="{% url 'profile_unfollow' author.username %}" role="button">
+                    Отписаться
+                </a>
+                {% else %}
+                <a class="btn btn-lg btn-primary" value="#563d7c" href="{% url 'profile_follow' author.username %}" role="button">
+                    Подписаться
+                </a>
                 {% endif %}
-            </div>
+            </li>
+            {% endif %}
         </div>
-    </main>
+
+        <div class="col-md-9">
+            {% for post in page %}
+            {% include "includes/post_item.html" with post=post %}
+            {% endfor %}
+            {% if page.has_other_pages %}
+            {% include "includes/paginator.html" with items=page paginator=paginator %}
+            {% endif %}
+        </div>
+    </div>
+</main>
 {% endblock %}
+

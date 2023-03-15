@@ -1,23 +1,30 @@
-<div class="card">
+{% load static user_filters %}
+<div class="card" style="width: 18rem;">
+    {% load thumbnail %}
+    {% thumbnail author.profile.avatar "960x339" crop="center" upscale=True as im %}
+    <img class="card-img" src="{{ im.url }}" />
+    {% endthumbnail %}
     <div class="card-body">
-        <div class="h2">
-            {{ author.get_full_name}}
-        </div>
-        <div class="h3 text-muted">
-            @{{ author.username }}
-        </div>
+        <h5 class="card-title">{{ author.get_full_name}}</h5>
+        <h6 class="card-title text-muted">@{{ author.username }}</h6>
+        {% if is_edit_profile %}
+        <form action="{% url 'update_user' author.username %}" method="post">
+            <div class="form-group">
+                {% csrf_token %}
+                {% for field in form_user %}
+                {{ field|addclass:"form-control" }}
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+        {% endif %}
+        <p class="card-text">{{ author.profile.description}} </p>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-            <div class="h6 text-muted">
-                Подписчиков: {{ author.following.count }} <br />
-                Подписан: {{ author.follower.count }}
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div class="h6 text-muted">
-                Записей: {{ posts_count }}
-            </div>
-        </li>
+        <li class="list-group-item">Подписчики: {{ author.following.count }}</li>
+        <li class="list-group-item">Мои подписки: {{ author.follower.count }}</li>
+        <li class="list-group-item">Записей: {{ posts_count }}</li>
+        <li class="list-group-item"><small class="text-muted">Был в сети 3 минуты назад</small></li>
+
     </ul>
 </div>

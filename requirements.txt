@@ -9,7 +9,6 @@ more-itertools==8.2.0
 packaging==20.1
 Pillow==9.4.0
 pluggy==0.13.1
-psycopg2==2.9.5
 py==1.8.1
 pyparsing==2.4.6
 pytest==5.3.5
