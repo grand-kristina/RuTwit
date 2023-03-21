@@ -2,16 +2,17 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.cache import cache_page
+from django.http import HttpResponseRedirect
 
 from .forms import CommentForm, PostForm
-from .models import Follow, Group, Post, User
+from .models import Follow, Group, Post, User, Like
+import random
 
 from users.forms import UpdateForm
 
 
-@cache_page(20, key_prefix='index_page')
 def index(request):
-    post_list = Post.objects.select_related('group').all()
+    post_list = Post.objects.select_related('group').filter(is_valid=True)
     paginator = Paginator(post_list, 5)
 
     page_number = request.GET.get('page')
@@ -25,7 +26,7 @@ def index(request):
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    posts = group.posts.all()
+    posts = group.posts.filter(is_valid=True)
     paginator = Paginator(posts, 5)
 
     page_number = request.GET.get('page')
@@ -63,7 +64,7 @@ def new_post(request):
 def profile(request, username):
     user = get_object_or_404(User, username=username)
 
-    posts = user.posts.all()
+    posts = user.posts.filter(is_valid=True)
     paginator = Paginator(posts, 10)
 
     page_number = request.GET.get('page')
@@ -73,6 +74,8 @@ def profile(request, username):
     is_edit_profile = user == request.user
     
     form_user = UpdateForm()
+
+    time_here = random.randint(5, 55)
 
     following = request.user.is_authenticated and Follow.objects.filter(
         user=request.user, author=user
@@ -87,14 +90,15 @@ def profile(request, username):
             'form': form,
             'form_user': form_user,
             'is_edit_profile': is_edit_profile,
-            'following': following
+            'following': following,
+            'time_here': time_here
         }
     )
 
 
 def post_view(request, username, post_id):
-    post = get_object_or_404(Post, pk=post_id, author__username=username)
-    posts_count = post.author.posts.count()
+    post = get_object_or_404(Post, pk=post_id, is_valid=True, author__username=username)
+    posts_count = post.author.posts.filter(is_valid=True).count()
     form = CommentForm()
     return render(
         request,
@@ -130,7 +134,7 @@ def post_edit(request, username, post_id):
 
 @login_required
 def add_comment(request, username, post_id):
-    post = get_object_or_404(Post, pk=post_id, author__username=username)
+    post = get_object_or_404(Post, pk=post_id, is_valid=True, author__username=username)
     form = CommentForm(request.POST or None)
     if form.is_valid():
         comment = form.save(commit=False)
@@ -159,7 +163,7 @@ def server_error(request):
 
 @login_required
 def follow_index(request):
-    posts = Post.objects.filter(author__following__user=request.user)
+    posts = Post.objects.filter(author__following__user=request.user, is_valid=True)
     paginator = Paginator(posts, 10)
 
     page_number = request.GET.get('page')
@@ -196,3 +200,23 @@ def profile_unfollow(request, username):
         follow_qs.delete()
 
     return redirect('profile', username=username)
+
+
+@login_required
+def post_like(request, post_id):
+    url = '/'+'/'.join(request.META.get('HTTP_REFERER').split('/')[3:])
+    post = get_object_or_404(Post, pk=post_id, is_valid=True)
+    Like.objects.get_or_create(post=post, user=request.user)
+    return HttpResponseRedirect(url)
+
+
+@login_required
+def post_unlike(request, post_id):
+    url = '/'+'/'.join(request.META.get('HTTP_REFERER').split('/')[3:])
+    post = get_object_or_404(Post, pk=post_id, is_valid=True)
+    like_qs = Like.objects.filter(post=post, user=request.user)
+    print(like_qs)
+    if like_qs.exists():
+        like_qs.delete()
+
+    return HttpResponseRedirect(url)

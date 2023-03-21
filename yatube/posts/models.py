@@ -32,6 +32,7 @@ class Post(models.Model):
         help_text='Выберите пожалуйста группу'
     )
     image = models.ImageField(upload_to='posts/', blank=True, null=True)
+    is_valid = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('-pub_date',)
@@ -73,3 +74,16 @@ class Follow(models.Model):
                 fields=['user', 'author'], name='unique_author_user_following'
             )
         ]
+
+class Like(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='likes'
+    )
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name='likes'
+    )
+

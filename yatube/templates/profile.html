@@ -13,10 +13,7 @@
             
             {% include 'includes/author_card.html' with author=author posts_count=paginator.count %}
    
-            {% if author.username != request.user.username %} 
-            
-            {# Надо исправить: Этот блок вообще не надо показывать в собственном профиле юзера#}
-            
+            {% if author.username != request.user.username %}         
            
                 {% if following %}
                 <a class="my-btn" href="{% url 'profile_unfollow' author.username %}" role="button">

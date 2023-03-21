@@ -23,4 +23,6 @@ urlpatterns = [
          name='update_user'),
     path('<str:username>/follow/', views.profile_follow, name='profile_follow'),
     path('<str:username>/unfollow/', views.profile_unfollow, name='profile_unfollow'),
+    path('<int:post_id>/like/', views.post_like, name='post_like'),
+    path('<int:post_id>/unlike/', views.post_unlike, name='post_unlike'),
 ]

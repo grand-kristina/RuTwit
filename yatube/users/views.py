@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from django.http import HttpResponseRedirect
 
 from .forms import CreationForm
 from .models import UserProfile
@@ -11,9 +12,8 @@ class SignUp(CreateView):
     template_name = "users/signup.html"
     
     def form_valid(self, form):
-        self.object = form.save(commit=False)
+        self.object = form.save()
         UserProfile.objects.create(user=self.object)
-        self.object.save()
 
         return HttpResponseRedirect(self.get_success_url())
 

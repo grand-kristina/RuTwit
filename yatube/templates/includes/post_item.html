@@ -27,12 +27,23 @@
                     <img src="{% static 'image/add.svg' %}" width="24" height="24" class="align-top" alt="">
                     Добавить комментарий
                     {% endif %}
-                </a>
+                </a>     
+                {% load user_filters %}
+                {% is_like post request.user as is_is_like %}
 
-                <a class="btn btn-sm text-muted" href="#" role="button">
-                    <img src="{% static 'image/like.svg' %}" width="24" height="24" class="align-top" alt="">
+                {% if is_is_like %}
+                    <a class="btn btn-sm text-muted" href="{% url 'post_unlike' post.pk %}" role="button">
+                {% else %}
+                    <a class="btn btn-sm text-muted" href="{% url 'post_like' post.pk %}" role="button">
+                 {% endif %}
+                    {% if is_is_like %}
+                        <img src="{% static 'image/like.svg' %}" width="24" height="24" class="align-top" alt="">
+                    {% else %}
+                        <img style='filter: hue-rotate(-60deg)' 
+                        src="{% static 'image/like.svg' %}" width="24" height="24" class="align-top" alt="">
+                    {% endif %}
 
-                    Мне нравится
+                    {% count_like post%}
 
                 </a>
                 {% if user == post.author %}
