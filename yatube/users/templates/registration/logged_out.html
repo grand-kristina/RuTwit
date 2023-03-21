@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Вы вышли из системы{% endblock %}
 {% block content %}
+{% load static %}
   <div class="row justify-content-center">
     <div class="col-md-8 p-5">
       <div class="card">
@@ -11,8 +12,10 @@
           <p>
             Вы вышли из своей учётной записи. Ждём вас снова!
           </p>
+             
         </div>
       </div>
+        <img src="{% static 'image/Bye.jpg' %}" width="800" height="500" class="sticky-bottom" alt="">
     </div>
   </div>
 {% endblock %}

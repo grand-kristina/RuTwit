@@ -17,17 +17,14 @@
             {% with request.resolver_match.view_name as view_name %}
             <ul  class="nav nav-pills">
                 <li class="nav-item">
-                    <a class="nav-link link-light {% if view_name  == 'about:author' %}active-nav{% endif %}" href="{% url 'about:author' %}">Об авторе</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link link-light {% if view_name  == 'about:tech' %}active-nav{% endif %}" href="{% url 'about:tech' %}">Технологии</a>
+                    <a class="nav-link link-light {% if view_name  == 'about:tech' %}active-nav{% endif %}" href="{% url 'about:tech' %}">SayHi?</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link link-light {% if view_name  == 'index' %}active-nav{% endif %}" href="{% url 'index' %}">Новости</a>
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link link-light {% if view_name  == 'new_post' %}active-nav{% endif %}" href="{% url 'new_post' %}"><img src="{% static 'image/letter.png' %}" width="25" height="25" class="" alt=""> Создать пост </a>
+                    <a class="nav-link link-light {% if view_name  == 'new_post' %}active-nav{% endif %}" href="{% url 'new_post' %}"><img src="{% static 'image/letter.png' %}" width="25" height="25" class="" alt=""> Написать новость </a>
                 </li>
                 <li class="nav-item">
                     <div class="btn-group">
@@ -44,7 +41,7 @@
                             <li>
                                 <a class="dropdown-item
                                    {% if view_name  == 'password_change' %}
-                                        active-nav
+                                        
                                    {% endif %}" href="{% url 'password_change' %}">Изменить пароль</a>
                             </li>
                             <li>
@@ -56,13 +53,13 @@
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link link-light {% if view_name  == 'login' %}active{% endif %}" href="{% url 'login' %}">Войти</a>
+                    <a class="nav-link link-light {% if view_name  == 'login' %}active-nav{% endif %}" href="{% url 'login' %}">Войти</a>
                 </li>
 
                 <a class="nav-link link-light" href="#">/</a>
 
                 <li class="nav-item">
-                    <a class="nav-link link-light {% if view_name  == 'signup' %}active{% endif %}" href="{% url 'signup' %}">Регистрация</a>
+                    <a class="nav-link link-light {% if view_name  == 'signup' %}active-nav{% endif %}" href="{% url 'signup' %}">Регистрация</a>
                 </li>
                 {% endif %}
             </ul>

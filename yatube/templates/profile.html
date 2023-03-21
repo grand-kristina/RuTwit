@@ -17,17 +17,17 @@
             
             {# Надо исправить: Этот блок вообще не надо показывать в собственном профиле юзера#}
             
-            <li class="list-group-item">
+           
                 {% if following %}
-                <a class="btn btn-lg btn-light" href="{% url 'profile_unfollow' author.username %}" role="button">
+                <a class="my-btn" href="{% url 'profile_unfollow' author.username %}" role="button">
                     Отписаться
                 </a>
                 {% else %}
-                <a class="btn btn-lg btn-primary" value="#563d7c" href="{% url 'profile_follow' author.username %}" role="button">
+                <a class="my-btn-2" href="{% url 'profile_follow' author.username %}" role="button">
                     Подписаться
                 </a>
                 {% endif %}
-            </li>
+           
             {% endif %}
         </div>
 
