@@ -1,19 +1,200 @@
-{% extends "base.html" %}
-{% block title %}Последние обновления{% endblock %}
+<!DOCTYPE html>
+<html class="no-js">
+<html lang="en" class="no-js">
+{% load static %}
 
-{% block content %}
-    <div class="container">
-        {% include "includes/menu.html" with index=True %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A free HTML5/CSS3 template made exclusively for Codrops by Peter Finlan" />
+    <meta name="keywords" content="html5 template, css3, one page, animations, agency, portfolio, web design" />
+    <meta name="author" content="Peter Finlan" />
+    <!-- Bootstrap -->
+    <script src="js/modernizr.custom.js"></script>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.fancybox.css' %}">
+    <link rel="stylesheet" href="{% static 'css/flickity.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/queries.css' %}">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+    <!-- Facebook and Twitter integration -->
+    <meta property="og:title" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:site_name" content="" />
+    <meta property="og:description" content="" />
+    <meta name="twitter:title" content="" />
+    <meta name="twitter:image" content="" />
+    <meta name="twitter:url" content="" />
+    <meta name="twitter:card" content="" />
 
-        
+</head>
 
-        {% for post in page %}
-            {% include "includes/post_item.html" with post=post %}
-        {% endfor %}
+<body>
 
-        {% if page.has_other_pages %}
-            {% include "includes/paginator.html" with items=page paginator=paginator%}
-        {% endif %}
+    <header>
+        <section class="hero">
+            <div class="texture-overlay"></div>
+            <div class="container">
+                <div class="row nav-wrapper">
+                    <div class="col-md-6 col-sm-6 col-xs-6 text-left">
+                        <a href="{% url 'signup' %}"><img src="{% static 'img/SayHi%C2%A0.svg' %}" alt="Boxify Logo"></a>
+                    </div>
 
-    </div>
-{% endblock %}
+                </div>
+                <div class="row hero-content" id="about">
+                    <div class="col-md-12">
+                        <h1 class="animated fadeInDown">SayHi — это социальная сеть для обмена новостями, <br> которая помогает общаться и оставаться на связи <br> с друзьями, родными и коллегами.</h1>
+                        <a href="{% url 'signup' %}" class="use-btn animated fadeInUp">Регистрируйся прямо сейчас</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </header>
+    <section class="features-list" id="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4 feature-2 wp2 ">
+                        <div class="feature-icon">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h1>Личный профиль</h1>
+                            <p>Создайте свой личный профиль в SayHi, добавляйте свои фото, информацию о себе и подписывайтесь на других пользователей !</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 feature-1 wp2 delay-05s">
+                        <div class="feature-icon">
+                            <i class="fa fa-newspaper-o"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h1>Новости</h1>
+                            <p>Предлагайте свои новости в группы на любые тематики и просматривайте новости других пользователей! </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 feature-3 wp2 delay-1s">
+                        <div class="feature-icon">
+                            <i class="fa fa-heart"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h1>Оценки</h1>
+                            <p>Оценивайте новости других пользователей и оставляйте комментарии!</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="features-intro">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 nopadding features-intro-img">
+                    <div class="features-bg">
+                        <div class="texture-overlay"></div>
+                        <div class="features-img wp1">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 nopadding">
+                    <div class="features-slider">
+                        <ul class="slides" id="featuresSlider">
+                            <li>
+                                <h1>Django</h1>
+                                <p>Для реализации приложения использовалась Django — свободный фреймворк для веб-приложений на языке Python, использующий шаблон проектирования MVC. Проект поддерживается организацией Django Software Foundation.</p>
+
+                            </li>
+                            <li>
+                                <h1>SQLite</h1>
+                                <p>В роли локального хранилища выступила SQLite – встраиваемая кроссплатформенная БД, которая поддерживает полный набор команд SQL и доступна в исходных кодах. Ввиду большой популярности и простоты использования выбран SQLite.</p>
+
+                            </li>
+                            <li>
+                                <h1>HTML</h1>
+                                <p>В качестве верски страниц приложения использовался HTML (от английского HyperText Markup Language) — это язык гипертекстовой разметки текста. Он нужен, чтобы размещать на веб-странице элементы: текст, картинки, таблицы и видео.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="showcase">
+        <div class="showcase-wrap">
+            <div class="texture-overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="device wp3">
+                            <div class="device-content">
+                                <div class="showcase-slider">
+                                    <ul class="slides" id="showcaseSlider">
+                                        <li>
+                                            <img src="{% static 'img/screen2.png' %}"  alt="Device Content Image">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h1>В разработке</h1>
+                        <p>Мобильная версия социальной сети SayHi уже находится на стадии разработки и скоро будет доступна!</p>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 justify-content-end">
+                    <h1 class="footer-logo">
+                        <img src="{% static 'img/SayHi%C2%A0.svg' %}" alt="Footer Logo Blue">
+                    </h1>
+                    <p>© SayHi - <a href="http://tympanus.net/codrops/licensing/"></a> Designed &amp; Developed by <a href="https://vk.com/krisuiux">Kristina Andreeva</a></p>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    
+    <script src="{% static 'js/min/toucheffects-min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{% static 'js/flickity.pkgd.min.js' %}"></script>
+    <script src="{% static 'js/jquery.fancybox.pack.js' %}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'js/retina.js' %}"></script>
+    <script src="{% static 'js/waypoints.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/min/scripts-min.js' %}"></script>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+        (function(b, o, i, l, e, r) {
+            b.GoogleAnalyticsObject = l;
+            b[l] || (b[l] =
+                function() {
+                    (b[l].q = b[l].q || []).push(arguments)
+                });
+            b[l].l = +new Date;
+            e = o.createElement(i);
+            r = o.getElementsByTagName(i)[0];
+            e.src = '//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e, r)
+        }(window, document, 'script', 'ga'));
+        ga('create', 'UA-XXXXX-X');
+        ga('send', 'pageview');
+
+    </script>
+</body>
+
+</html>
