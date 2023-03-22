@@ -68,7 +68,7 @@ class PostFormTests(TestCase):
         )
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertRedirects(response, reverse('index'))
+        self.assertRedirects(response, reverse('posts'))
 
         self.assertEqual(Post.objects.count(), 1)
         self.assertTrue(

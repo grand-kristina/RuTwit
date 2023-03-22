@@ -36,14 +36,14 @@ class TestPosts(TestCase):
         )
 
         post_args = (cls.user.username, cls.post.id)
-        cls.index_url = ('index', 'index.html', None)
+        cls.posts_url = ('posts', 'posts.html', None)
         cls.group_url = ('group', 'group.html', (cls.group.slug,))
         cls.profile_url = ('profile', 'profile.html', (cls.user.username,))
         cls.post_url = ('post', 'post.html', post_args)
         cls.new_post_url = ('new_post', 'new_post.html', None)
         cls.edit_post_url = ('post_edit', 'new_post.html', post_args)
         cls.paginated_urls = (
-            cls.index_url,
+            cls.posts_url,
             cls.group_url,
             cls.profile_url
         )
@@ -211,7 +211,7 @@ class TestPosts(TestCase):
         )
 
         urls = (
-            reverse('index'),
+            reverse('posts'),
             reverse('profile', args=(self.user.username,)),
             reverse('post', args=(self.user.username, post.id)),
             reverse('group', args=(self.group.slug,))
@@ -229,7 +229,7 @@ class TestPosts(TestCase):
             author=self.user,
             group=self.group
         )
-        index = reverse('index')
+        index = reverse('posts')
         response = self.authorized_client.get(index)
         cached_response_content = response.content
         paginator = response.context.get('paginator')

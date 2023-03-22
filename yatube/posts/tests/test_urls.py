@@ -26,7 +26,7 @@ class PostsURLTests(TestCase):
         cls.post_url = f'/{cls.user.username}/{cls.post.id}/'
         cls.post_edit_url = f'/{cls.user.username}/{cls.post.id}/edit/'
         cls.public_urls = (
-            ('/', 'index.html'),
+            ('/posts/', 'posts.html'),
             (f'/group/{cls.group.slug}/', 'group.html'),
             (f'/{cls.user.username}/', 'profile.html'),
             (cls.post_url, 'post.html'),

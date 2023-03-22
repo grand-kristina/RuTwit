@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.cache import cache_page
 from django.http import HttpResponseRedirect
+from django.views.generic.base import TemplateView
 
 from .forms import CommentForm, PostForm
 from .models import Follow, Group, Post, User, Like
@@ -11,7 +12,11 @@ import random
 from users.forms import UpdateForm
 
 
-def index(request):
+class IndexView(TemplateView):
+    template_name = 'index.html'
+
+@login_required
+def posts(request):
     post_list = Post.objects.select_related('group').filter(is_valid=True)
     paginator = Paginator(post_list, 5)
 
@@ -19,11 +24,11 @@ def index(request):
     page = paginator.get_page(page_number)
     return render(
         request,
-        'index.html',
+        'posts.html',
         {'page': page, 'paginator': paginator}
     )
 
-
+@login_required
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     posts = group.posts.filter(is_valid=True)
@@ -58,9 +63,9 @@ def new_post(request):
     post.save()
 
 
-    return redirect('index')
+    return redirect('posts')
 
-
+@login_required
 def profile(request, username):
     user = get_object_or_404(User, username=username)
 
@@ -95,7 +100,7 @@ def profile(request, username):
         }
     )
 
-
+@login_required
 def post_view(request, username, post_id):
     post = get_object_or_404(Post, pk=post_id, is_valid=True, author__username=username)
     posts_count = post.author.posts.filter(is_valid=True).count()
